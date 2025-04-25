@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 int gcd(int a, int b)
@@ -11,6 +10,7 @@ int gcd(int a, int b)
 
 class Fraction
 {
+private:
     int numerator;
     int denominator;
 
@@ -39,22 +39,22 @@ public:
     }
     Fraction()
     {
-        numerator = 0;
-        denominator = 1;
+        setnumerator(0);
+        setdenominator(1);
     }
     Fraction(int n)
     {
-        numerator = n;
-        denominator = 1;
+        setnumerator(n);
+        setdenominator(1);
     }
     Fraction(int num, int denom)
     {
-        numerator = num;
-        denominator = denom;
+        setnumerator(num);
+        setdenominator(denom);
         if (denominator == 0)
         {
             cout << "Denominator cannot be zero" << endl;
-            denominator = 1; // Set to default value
+            denominator = 1; 
         }
         if (denominator < 0)
         {
@@ -75,24 +75,22 @@ public:
     Fraction add(const int n)
     {
         Fraction result;
-        result.numerator = (numerator) + (denominator * n);
-        result.denominator = denominator;
+        result.setnumerator((numerator) + (denominator * n));
+        result.setdenominator(denominator);
         result.reduce();
         return result;
     }
     Fraction sub(const Fraction &f)
     {
         Fraction result;
-        result.numerator = (numerator * f.denominator) - (denominator * f.numerator);
-        result.denominator = denominator * f.denominator;
+        result.setnumerator((numerator * f.denominator) - (denominator * f.numerator));
+        result.setdenominator(denominator * f.denominator);
         result.reduce();
         return result;
     }
     Fraction sub(const int n)
     {
-        Fraction result;
-        result.numerator = (numerator) - (denominator * n);
-        result.denominator = denominator;
+        Fraction result((numerator) - (denominator * n), denominator);
         result.reduce();
         return result;
     }
@@ -123,6 +121,13 @@ public:
     Fraction div(const int n)
     {
         Fraction result;
+        if(n==0)
+        {
+            cout << "Can not divide by 0" << endl;
+            result.numerator = numerator;
+            result.denominator = denominator;
+            return result;
+        }
         result.numerator = numerator;
         result.denominator = denominator * n;
         result.reduce();
@@ -130,7 +135,7 @@ public:
     }
     ~Fraction()
     {
-        // cout << "Destructor called" << endl;
+        
     }
     void print() const
     {
@@ -181,7 +186,18 @@ public:
             cout << "Collection is full" << endl;
             return;
         }
-
+        if (n < 0 || n >= maxlength)
+        {
+            cout << "Invalid position" << endl;
+            return;
+        }
+        
+        for (int i = length; i > n; i--)
+        {
+            fractions[i] = fractions[i - 1];
+        }
+        length++;
+        
         fractions[n] = f;
     }
 
@@ -194,7 +210,7 @@ public:
         }
 
         length--;
-        cout << "Removed last element" << endl;
+        
     }
     void remove(const Fraction &f)
     {
@@ -209,13 +225,13 @@ public:
             if (fractions[i].getnumerator() == f.getnumerator() &&
                 fractions[i].getdenominator() == f.getdenominator())
             {
-                // Shift remaining elements left
+                
                 for (int j = i; j < length - 1; j++)
                 {
                     fractions[j] = fractions[j + 1];
                 }
                 length--;
-                cout << "Removed element" << endl;
+                
                 return;
             }
         }
@@ -235,13 +251,12 @@ public:
             cout << "Invalid position" << endl;
             return;
         }
-        // Shift elements to the left
+        
         for (int i = pos; i < length - 1; i++)
         {
             fractions[i] = fractions[i + 1];
         }
         length--;
-        cout << "Removed element" << endl;
     }
 
     Fraction getmax()
@@ -351,29 +366,39 @@ public:
     }
     void print()
     {
+        Fraction sum(0), prod(1);
+        cout << "\nFractions" << endl;
+        cout << "-------------------------------" << endl;
         for (int i = 0; i < length; i++)
         {
+            cout << "Fraction " << i  << ": ";
             fractions[i].print();
+            
         }
+
+        cout << "Max: "; 
+        getmax().print();
+        cout << "Min: "; 
+        getmin().print();
+        sum = add(0, length-1);
+        prod = mul(0, length-1);
+        cout << "Summation: "; 
+        sum.print();
+        cout << "Multiplication: "; 
+        prod.print();
+        
+
     }
 };
 
 int main()
 {
-    // Fraction f1(1, 2);
-    // Fraction f2(1, 3);
 
-    // Fraction sum = f1.add(f2);
-    // sum.print(); // Should print 5/6
-
-    // Fraction product = f1.mul(2);
-    // product.print(); // Should print 2/2
-
-    // sample main code from offline
-    // create Fraction with numerator, denominator
+    
+    
     Fraction a(5, 2), b(7, 2), c(9, 2), d(28, 5);
     cout << "Fraction" << endl;
-    cout << "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -" << endl;
+    cout << "-------------------------------" << endl;
     cout << "A: ";
     a.print();
     cout << "B: ";
@@ -397,27 +422,29 @@ int main()
     a.div(2).print();
     cout << "Div(a,0): ";
     a.div(0).print();
-    // Collection of Fractions
+    
     Fraction e, f(5), g(10);
     FractionCollection fc(10);
     fc.insert(a);
     fc.insert(b);
     fc.insert(c);
     fc.print();
+    
     cout << "Sub(Pos0, Pos1): ";
-    fc.sub(0, 1).print(); // subtracts the fraction at pos1 from fraction at pos0
+    fc.sub(0, 1).print(); 
     cout << "Div(Pos0, Pos1): ";
-    fc.div(0, 1).print(); // divides the fraction at pos0 by the fraction at pos1
-    fc.remove(1);         // removed 'b'
+    fc.div(0, 1).print(); 
+    fc.remove(1);         
     fc.print();
+
     fc.remove(a);
     fc.print();
     fc.insert(d);
-    fc.insert(0, e); // insert at pos0
+    fc.insert(0, e); 
     fc.insert(f);
     fc.insert(g);
     fc.print();
-    fc.remove(); // removed the last fraction
-    fc.print();  // notice the output
+    fc.remove(); 
+    fc.print();  
     return 0;
 }

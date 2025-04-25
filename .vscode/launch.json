@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "How do I run the debugger?",
+            "program": "${workspaceFolder}/${input:programName}",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "build"
+        }
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "programName",
+            "description": "Enter the name of the program to debug (e.g., my-program.exe or my-program.out)"
+        }
+    ]
+}

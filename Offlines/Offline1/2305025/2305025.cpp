@@ -54,7 +54,7 @@ public:
         if (denominator == 0)
         {
             cout << "Denominator cannot be zero" << endl;
-            denominator = 1; 
+            denominator = 1;
         }
         if (denominator < 0)
         {
@@ -121,7 +121,7 @@ public:
     Fraction div(const int n)
     {
         Fraction result;
-        if(n==0)
+        if (n == 0)
         {
             cout << "Can not divide by 0" << endl;
             result.numerator = numerator;
@@ -135,7 +135,6 @@ public:
     }
     ~Fraction()
     {
-        
     }
     void print() const
     {
@@ -191,13 +190,13 @@ public:
             cout << "Invalid position" << endl;
             return;
         }
-        
+
         for (int i = length; i > n; i--)
         {
             fractions[i] = fractions[i - 1];
         }
         length++;
-        
+
         fractions[n] = f;
     }
 
@@ -210,7 +209,6 @@ public:
         }
 
         length--;
-        
     }
     void remove(const Fraction &f)
     {
@@ -225,13 +223,13 @@ public:
             if (fractions[i].getnumerator() == f.getnumerator() &&
                 fractions[i].getdenominator() == f.getdenominator())
             {
-                
+
                 for (int j = i; j < length - 1; j++)
                 {
                     fractions[j] = fractions[j + 1];
                 }
                 length--;
-                
+
                 return;
             }
         }
@@ -251,7 +249,7 @@ public:
             cout << "Invalid position" << endl;
             return;
         }
-        
+
         for (int i = pos; i < length - 1; i++)
         {
             fractions[i] = fractions[i + 1];
@@ -371,31 +369,25 @@ public:
         cout << "-------------------------------" << endl;
         for (int i = 0; i < length; i++)
         {
-            cout << "Fraction " << i  << ": ";
+            cout << "Fraction " << i << ": ";
             fractions[i].print();
-            
         }
 
-        cout << "Max: "; 
+        cout << "Max: ";
         getmax().print();
-        cout << "Min: "; 
+        cout << "Min: ";
         getmin().print();
-        sum = add(0, length-1);
-        prod = mul(0, length-1);
-        cout << "Summation: "; 
+        sum = add(0, length - 1);
+        prod = mul(0, length - 1);
+        cout << "Summation: ";
         sum.print();
-        cout << "Multiplication: "; 
+        cout << "Multiplication: ";
         prod.print();
-        
-
     }
 };
 
 int main()
 {
-
-    
-    
     Fraction a(5, 2), b(7, 2), c(9, 2), d(28, 5);
     cout << "Fraction" << endl;
     cout << "-------------------------------" << endl;
@@ -422,29 +414,37 @@ int main()
     a.div(2).print();
     cout << "Div(a,0): ";
     a.div(0).print();
-    
+
     Fraction e, f(5), g(10);
     FractionCollection fc(10);
     fc.insert(a);
     fc.insert(b);
     fc.insert(c);
     fc.print();
-    
+
     cout << "Sub(Pos0, Pos1): ";
-    fc.sub(0, 1).print(); 
+    fc.sub(0, 1).print();
     cout << "Div(Pos0, Pos1): ";
-    fc.div(0, 1).print(); 
-    fc.remove(1);         
+    fc.div(0, 1).print();
+    fc.remove(1);
     fc.print();
 
     fc.remove(a);
     fc.print();
     fc.insert(d);
-    fc.insert(0, e); 
+    fc.insert(0, e);
     fc.insert(f);
     fc.insert(g);
     fc.print();
-    fc.remove(); 
-    fc.print();  
+    fc.remove();
+    // fc.insert(a);
+    // fc.insert(b);
+    // fc.insert(c);
+    // fc.insert(a);
+    // fc.insert(b);
+    // fc.insert(c);
+    //fc.insert(a);
+    fc.print();
+
     return 0;
 }
